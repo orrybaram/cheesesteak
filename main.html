@@ -12,5 +12,13 @@
 			<input name="nameB" />
 			<button>Go</button>
 		</form>
+
+		{% for test in tests %}
+			<div>
+				<h2>{{ test.nameA }}</h2>
+				<h2>{{ test.nameB }}</h2>
+			</div>
+		{% endfor %}
+
 	</body>
 </html>

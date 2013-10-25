@@ -15,7 +15,18 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        values = {}
+        tests = ABTestModel.all().order('-date_updated').fetch(100)
+
+        logging.info("")
+        logging.info("")
+        logging.info("")
+        logging.info("")
+
+        logging.info(tests)
+
+        values = {
+           'tests': tests
+        }
         template = JINJA_ENVIRONMENT.get_template('main.html')
         self.response.write(template.render(values))
 
