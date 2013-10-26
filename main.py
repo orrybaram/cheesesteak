@@ -22,7 +22,7 @@ class ABTests(webapp2.RequestHandler):
     def get(self):        
         values = []
         
-        tests = ABTestModel.all().order('-date_updated').fetch(100)
+        tests = ABTestModel.all().order('date_updated').fetch(100)
         
         for test in tests:
             values.append(test.serializable());
