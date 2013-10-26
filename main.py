@@ -15,37 +15,33 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
+        template = JINJA_ENVIRONMENT.get_template('index.html')
+        self.response.write(template.render())
+
+class ABTests(webapp2.RequestHandler):
+    def get(self):        
         tests = ABTestModel.all().order('-date_updated').fetch(100)
 
-        logging.info("")
-        logging.info("")
-        logging.info("")
-        logging.info("")
-
-        logging.info(tests)
-
-        values = {
-           'tests': tests
-        }
-        template = JINJA_ENVIRONMENT.get_template('main.html')
-        self.response.write(template.render(values))
+        values = tests.serializable()
+        
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(json.dumps(values))
 
     def post(self):
-    	values = {}
+        values = {}
 
-    	nameA = self.request.get('nameA')
-    	nameB = self.request.get('nameB')
+        nameA = self.request.get('nameA')
+        nameB = self.request.get('nameB')
 
-    	test = {
-    		'nameA': nameA,
-    		'nameB': nameB
-    	}
+        test = {
+            'nameA': nameA,
+            'nameB': nameB
+        }
 
-    	ABTestModel.add(test)
+        ABTestModel.add(test)
 
-    	template = JINJA_ENVIRONMENT.get_template('main.html')
-        self.response.write(template.render(values))
-
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(json.dumps(tests))
 
 class ABTestModel(db.Model):
     date_created = db.DateTimeProperty(auto_now_add=True)
@@ -56,17 +52,17 @@ class ABTestModel(db.Model):
     @classmethod
     def add(self, obj):
 
-    	logging.info(self)
-    	logging.info(obj)
+        logging.info(self)
+        logging.info(obj)
 
-    	test = ABTestModel()
-    	test.nameA = obj['nameA']
-    	test.nameB = obj['nameB']
+        test = ABTestModel()
+        test.nameA = obj['nameA']
+        test.nameB = obj['nameB']
 
-    	test.put()
-
+        test.put()
 
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/', MainHandler),
+    ('/tests/?', ABTests),
 ], debug=True)
