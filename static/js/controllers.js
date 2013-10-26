@@ -4,21 +4,25 @@
 
 angular.module('app.controllers', []).
   controller('MainCtrl', ['$scope', '$http', function($scope, $http) {
-
-  	console.log('hi main')
-
+    
+    $scope.tests = [];
+    
     $http.get('/tests/').success(function(data){
-      console.log(data)
+      $scope.tests = data;
     })
-
 
   }]).
 
   controller('AdminCtrl', ['$scope', '$http', function($scope, $http) {
+    
+    $scope.postData = {};
 
-    console.log('hi admin')
-
-
-
-
+    $scope.postTest = function() {
+      $http.post('/tests/', $scope.postData).
+        success(function(data) {
+          console.log(data);
+          $scope.postData = {};
+        })
+    }
+  
   }])

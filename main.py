@@ -20,28 +20,27 @@ class MainHandler(webapp2.RequestHandler):
 
 class ABTests(webapp2.RequestHandler):
     def get(self):        
-        tests = ABTestModel.all().order('-date_updated').fetch(100)
-
-        values = tests.serializable()
+        values = []
         
+        tests = ABTestModel.all().order('-date_updated').fetch(100)
+        
+        for test in tests:
+            values.append(test.serializable());
+
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(json.dumps(values))
 
     def post(self):
-        values = {}
+        data = json.loads(self.request.body)
+        test = ABTestModel()
 
-        nameA = self.request.get('nameA')
-        nameB = self.request.get('nameB')
+        test.nameA = data.get('nameA')
+        test.nameB = data.get('nameB')
 
-        test = {
-            'nameA': nameA,
-            'nameB': nameB
-        }
-
-        ABTestModel.add(test)
+        test.put()
 
         self.response.headers['Content-Type'] = 'application/json'
-        self.response.out.write(json.dumps(tests))
+        self.response.out.write(json.dumps(test.serializable()))
 
 class ABTestModel(db.Model):
     date_created = db.DateTimeProperty(auto_now_add=True)
@@ -49,17 +48,26 @@ class ABTestModel(db.Model):
     nameA = db.StringProperty()
     nameB = db.StringProperty()
 
-    @classmethod
-    def add(self, obj):
+    # @classmethod
+    # def add(self, obj):
 
-        logging.info(self)
-        logging.info(obj)
+    #     logging.info(self)
+    #     logging.info(obj)
 
-        test = ABTestModel()
-        test.nameA = obj['nameA']
-        test.nameB = obj['nameB']
+    #     test = ABTestModel()
+    #     test.nameA = obj['nameA']
+    #     test.nameB = obj['nameB']
 
-        test.put()
+    #     test.put()
+
+    def serializable(self):
+        result = {}
+        result['date_created'] = '%s+00:00' % self.date_created.isoformat()
+        result['date_created'] = '%s+00:00' % self.date_updated.isoformat()
+        result['nameA'] = self.nameA
+        result['nameB'] = self.nameB
+        
+        return result
 
 
 app = webapp2.WSGIApplication([
