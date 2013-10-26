@@ -1,7 +1,57 @@
-.product {
-	margin: 50px;
-	display:inline-block;
+body {
+	background:#F5F5F5;
 }
+
+h1 {
+	color: #FF2FC5;
+	font-size: 40px;
+	text-align: center;
+	margin: 0 0 40px;
+}
+
+/* MAIN PAGE */
+.wrapper {
+	padding: 50px;
+}
+
+.product {
+	width: 43%;
+	background-color: white;
+	display: inline-block;
+	cursor: pointer;
+	position: relative;
+	border: 15px solid #FFF;
+	box-shadow: 0 0 4px #000;
+	margin: 0 3%;}
+
+	.product .img-wrapper {
+		position: relative;
+	}
+
+	.product img {
+		width: 100%;
+		vertical-align: bottom;
+	}
+
+	.product h3 {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		background: rgba(39, 192, 26, 0.81);
+		margin: 0;
+		color: #B5FFB5;
+		text-align: center;
+		text-shadow: 0 -1px #008000;
+		padding: 10px;
+	}
+
+#controls {
+	text-align: center;
+	margin: 40px 0;
+}
+
+/* ADMIN PAGE */
 table {
 	margin: 100px;
 }
