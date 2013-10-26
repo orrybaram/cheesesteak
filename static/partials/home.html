@@ -1,12 +1,12 @@
-<div ng-repeat="test in tests" class="test">
 	<div class="product_a">
 		<a ng-click="vote_for_a()">{{ test.nameA }}</a>
-		<span ng-show="voted_for_a">Voted</span>
+		<span ng-show="test.voted_for_a">Voted</span>
 	</div>
 	
 	<div class="product_b">
 		<a ng-click="vote_for_b()">{{ test.nameB }}</a>
-		<span ng-show="voted_for_b">Voted</span>
+		<span ng-show="test.voted_for_b">Voted</span>
 	</div>
-</div>
 
+<a ng-click="prev_test()">prev</a>
+<a ng-click="next_test()">next</a>
