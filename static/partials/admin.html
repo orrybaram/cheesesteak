@@ -6,3 +6,18 @@
 	<input type="file" ng-model="postData.B_image" fileread="postData.B_image"/>
 	<button>Add</button>
 </form>
+
+<table>
+	<tr>
+		<th>Product A</th>
+		<th></th>
+		<th>Product B</th>
+		<th></th>
+	</tr>
+	<tr ng-repeat="test in tests">
+		<td>{{test.A_name}}</td>
+		<td><img ng-src="{{test.A_image}}"/></td>
+		<td>{{test.B_name}}</td>
+		<td><img ng-src="{{test.B_image}}" /></td>
+	</tr>
+</table>

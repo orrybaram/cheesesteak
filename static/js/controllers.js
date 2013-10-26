@@ -2,6 +2,9 @@
 
 /* Controllers */
 
+// =========================================
+// MAIN CONTROLLER 
+// =========================================
 angular.module('app.controllers', []).
   controller('MainCtrl', ['$scope', '$http', function($scope, $http) {
     
@@ -10,7 +13,7 @@ angular.module('app.controllers', []).
     $scope.voted_for_b = false;
     $scope.test_index = 0;
 
-    
+    // TODO: centralize the getting of tests
     $http.get('/tests/').success(function(data){
       $scope.tests = data;
       $scope.test = $scope.tests[$scope.test_index];
@@ -50,22 +53,33 @@ angular.module('app.controllers', []).
     }
 
   }]).
-
+  
+  // =========================================
+  // ADMIN CONTROLLER 
+  // =========================================
+  
   controller('AdminCtrl', ['$scope', '$http', function($scope, $http) {
+    
+    // TODO: centralize the getting of tests
+    $scope.tests = []
+    $http.get('/tests/').success(function(data){
+      $scope.tests = data;
+    })
+
+
     window.scope = $scope;
     $scope.postData = {};
 
     $scope.postTest = function() {
       console.log($scope.postData);
-      $http({
-        url:'/tests/', 
-        data: $scope.postData,
-        method: 'POST'
-      }).
-      success(function(data) {
-        console.log(data);
-        $scope.postData = {};
-      })
+      $http.post('/tests/', $scope.postData).
+        success(function(data) {
+          console.log(data);
+          $scope.tests.push(data);
+          $scope.postData = {};
+
+        })
+      ;
     }
   
   }])

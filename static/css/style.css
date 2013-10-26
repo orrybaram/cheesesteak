@@ -2,3 +2,9 @@
 	margin: 50px;
 	display:inline-block;
 }
+table {
+	margin: 100px;
+}
+table img {
+	width: 50px
+}

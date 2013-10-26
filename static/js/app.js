@@ -9,7 +9,7 @@ angular.module('app', [
   'app.directives',
   'app.controllers'
 ]).
-config(['$routeProvider', function($routeProvider) {
+config(['$routeProvider', function($routeProvider, $rootScope) {
   $routeProvider.when('/', {templateUrl: 'partials/home.html', controller: 'MainCtrl'});
   $routeProvider.when('/admin', {templateUrl: 'partials/admin.html', controller: 'AdminCtrl'});
   $routeProvider.otherwise({redirectTo: '/'});
