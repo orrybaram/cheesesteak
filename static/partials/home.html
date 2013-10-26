@@ -1,14 +1,15 @@
-	<div class="product_a">
-		<a ng-click="vote_for_a()">{{ test.A_name }}</a>
+	<div class="product" ng-click="vote_for_a()">
+		<h2>{{ test.A_name }}</h2>
 		<img ng-src="{{test.A_image}}" />
-		<span ng-show="test.voted_for_a">Voted</span>
+		<h3 ng-show="test.voted_for_a">Voted</h3>
 	</div>
 	
-	<div class="product_b">
-		<a ng-click="vote_for_b()">{{ test.B_name }}</a>
+	<div class="product" ng-click="vote_for_b()">
+		<h2>{{ test.B_name }}</h2>
 		<img ng-src="{{test.B_image}}" />
-		<span ng-show="test.voted_for_b">Voted</span>
+		<h3 ng-show="test.voted_for_b">Voted</h3>
 	</div>
-
+<div>
 <a ng-click="prev_test()">prev</a>
 <a ng-click="next_test()">next</a>
+</div>
