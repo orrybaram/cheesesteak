@@ -1,5 +1,8 @@
-<form ng-submit="postTest()">
-	<input ng-model="postData.nameA" />
-	<input ng-model="postData.nameB" />
+<form enctype="multipart/form-data" ng-submit="postTest()">
+	<input ng-model="postData.A_name" />
+	<input ng-model="postData.B_name" />
+
+	<input type="file" ng-model="postData.A_image" fileread="postData.A_image"/>
+	<input type="file" ng-model="postData.B_image" fileread="postData.B_image"/>
 	<button>Add</button>
 </form>

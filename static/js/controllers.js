@@ -5,8 +5,6 @@
 angular.module('app.controllers', []).
   controller('MainCtrl', ['$scope', '$http', function($scope, $http) {
     
-    window.scope = $scope;  
-
     $scope.tests = [];
     $scope.voted_for_a = false;
     $scope.voted_for_b = false;
@@ -54,15 +52,20 @@ angular.module('app.controllers', []).
   }]).
 
   controller('AdminCtrl', ['$scope', '$http', function($scope, $http) {
-    
+    window.scope = $scope;
     $scope.postData = {};
 
     $scope.postTest = function() {
-      $http.post('/tests/', $scope.postData).
-        success(function(data) {
-          console.log(data);
-          $scope.postData = {};
-        })
+      console.log($scope.postData);
+      $http({
+        url:'/tests/', 
+        data: $scope.postData,
+        method: 'POST'
+      }).
+      success(function(data) {
+        console.log(data);
+        $scope.postData = {};
+      })
     }
   
   }])

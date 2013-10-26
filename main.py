@@ -34,8 +34,12 @@ class ABTests(webapp2.RequestHandler):
         data = json.loads(self.request.body)
         test = ABTestModel()
 
-        test.nameA = data.get('nameA')
-        test.nameB = data.get('nameB')
+        logging.info(data.get('B_image'))
+
+        test.A_name = data.get('A_name')
+        test.B_name = data.get('B_name')
+        test.A_image = db.Blob(str(data.get('A_image')))
+        test.B_image = db.Blob(str(data.get('B_image')))
 
         test.put()
 
@@ -45,29 +49,32 @@ class ABTests(webapp2.RequestHandler):
 class ABTestModel(db.Model):
     date_created = db.DateTimeProperty(auto_now_add=True)
     date_updated = db.DateTimeProperty(auto_now=True)
-    nameA = db.StringProperty()
-    nameB = db.StringProperty()
-
-    # @classmethod
-    # def add(self, obj):
-
-    #     logging.info(self)
-    #     logging.info(obj)
-
-    #     test = ABTestModel()
-    #     test.nameA = obj['nameA']
-    #     test.nameB = obj['nameB']
-
-    #     test.put()
+    product_name = db.StringProperty()
+    product_description = db.StringProperty()
+    A_name = db.StringProperty()
+    A_image = db.BlobProperty()
+    B_name = db.StringProperty()
+    B_image = db.BlobProperty()
 
     def serializable(self):
         result = {}
         result['date_created'] = '%s+00:00' % self.date_created.isoformat()
         result['date_created'] = '%s+00:00' % self.date_updated.isoformat()
-        result['nameA'] = self.nameA
-        result['nameB'] = self.nameB
+        result['A_name'] = self.A_name
+        result['A_image'] = self.A_image
+        result['B_name'] = self.B_name
+        result['B_image'] = self.B_image
         
         return result
+
+# class ImageHandler(webapp2.RequestHandler):
+#     def get(self):
+#         test = db.get(self.request.get('img_id'))
+#         if greeting.avatar:
+#             self.response.headers['Content-Type'] = 'image/png'
+#             self.response.out.write(greeting.avatar)
+#         else:
+#             self.response.out.write('No image')
 
 
 app = webapp2.WSGIApplication([
