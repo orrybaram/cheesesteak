@@ -1,9 +1,14 @@
 <form enctype="multipart/form-data" ng-submit="postTest()">
-	<input ng-model="postData.A_name" />
-	<input ng-model="postData.B_name" />
-
-	<input type="file" ng-model="postData.A_image" fileread="postData.A_image"/>
-	<input type="file" ng-model="postData.B_image" fileread="postData.B_image"/>
+	<div class="product">
+		<input ng-model="postData.A_name" placeholder="name" required/>
+		<input type="file" ng-model="postData.A_image" fileread="postData.A_image" required/>
+		<img ng-show="postData.A_image" ng-src="{{postData.A_image}}" />
+	</div>
+	<div class="product">
+		<input ng-model="postData.B_name" placeholder="name" required/>
+		<input type="file" ng-model="postData.B_image" fileread="postData.B_image" required/>
+		<img ng-show="postData.B_image" ng-src="{{postData.B_image}}" />
+	</div>
 	<button>Add</button>
 </form>
 

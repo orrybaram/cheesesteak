@@ -6,7 +6,7 @@
 // MAIN CONTROLLER 
 // =========================================
 angular.module('app.controllers', []).
-  controller('MainCtrl', ['$scope', '$http', function($scope, $http) {
+  controller('MainCtrl', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
     
     $scope.tests = [];
     $scope.voted_for_a = false;
@@ -23,11 +23,13 @@ angular.module('app.controllers', []).
     $scope.vote_for_a = function() {
       $scope.test.voted_for_a = true;
       $scope.test.voted_for_b = false;
+      $timeout(function() { $scope.next_test(); }, 500)
     }
 
     $scope.vote_for_b = function() {
       $scope.test.voted_for_a = false;
       $scope.test.voted_for_b = true;
+      $timeout(function() { $scope.next_test(); }, 500)
     }
 
     $scope.next_test = function() {
