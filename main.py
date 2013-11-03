@@ -27,9 +27,10 @@ class MainHandler(webapp2.RequestHandler):
 
             if not user:
                 user = UserModel()
-                user.name = str(user)
-                user.userid = user.user_id()
+                user.name = str(current_user)
+                user.userid = current_user.user_id()
                 user.put()
+            
             values["user"] = user
 
         else:
@@ -40,12 +41,19 @@ class MainHandler(webapp2.RequestHandler):
 
 class Tests(webapp2.RequestHandler):
     def get(self, test_key=None):        
+        user = UserModel.all().filter('userid =', users.get_current_user().user_id()).get()
+
         values = []
         if test_key:
             test = TestModel.get(test_key)
             values = test.serializable()
         else:
-            tests = TestModel.all().order('date_updated').fetch(100)
+            if user.is_admin:    
+                tests = TestModel.all().order('date_updated').fetch(100)
+            else:
+                tests = TestModel.all().filter('user =', users.get_current_user()).fetch(100)
+                logging.info(user.name)
+            
             for test in tests:
                 values.append(test.serializable());
 
@@ -94,6 +102,7 @@ class Vote(webapp2.RequestHandler):
 class UserModel(db.Model):
     userid = db.StringProperty()
     name = db.StringProperty()
+    is_admin = db.BooleanProperty(default=False)
 
     def serializable(self):
         result = {}
@@ -114,7 +123,6 @@ class TestModel(db.Model):
     B_name = db.StringProperty()
     B_image = db.BlobProperty()
     B_votes = db.IntegerProperty(default=0)
-
 
     def serializable(self):
         result = {}
