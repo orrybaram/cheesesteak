@@ -6,54 +6,40 @@
 // MAIN CONTROLLER 
 // =========================================
 angular.module('app.controllers', []).
-  controller('MainCtrl', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
-    
-    $scope.tests = [];
-    $scope.voted_for_a = false;
-    $scope.voted_for_b = false;
-    $scope.test_index = 0;
-
-    // TODO: centralize the getting of tests
-    $http.get('/tests/').success(function(data){
+  
+  controller('MainCtrl', ['$scope', '$http', '$timeout', '$routeParams', function($scope, $http, $timeout, $routeParams) {
+      $scope.tests = [];
+      // TODO: centralize the getting of tests
+      $http.get('/tests/').success(function(data){
       $scope.tests = data;
       $scope.test = $scope.tests[$scope.test_index];
+    })
+  }]).
+
+  controller('TestCtrl', ['$scope', '$http', '$timeout', '$routeParams', function($scope, $http, $timeout, $routeParams) {
+    
+    window.scope = $scope;
+
+    console.log($routeParams)
+
+    $scope.voted_for_a = false;
+    $scope.voted_for_b = false;
+
+    // TODO: centralize the getting of tests
+    $http.get('/tests/' + $routeParams.testKey).success(function(data){
+      $scope.test = data[0];
     })
 
 
     $scope.vote_for_a = function() {
       $scope.test.voted_for_a = true;
       $scope.test.voted_for_b = false;
-      $timeout(function() { $scope.next_test(); }, 500)
     }
 
     $scope.vote_for_b = function() {
       $scope.test.voted_for_a = false;
       $scope.test.voted_for_b = true;
-      $timeout(function() { $scope.next_test(); }, 500)
     }
-
-    $scope.next_test = function() {
-      console.log($scope.test_index)
-      if ($scope.test_index !== $scope.tests.length - 1) {
-        $scope.test_index += 1
-      } else {
-        $scope.test_index = 0;
-      }
-      
-      $scope.test = $scope.tests[$scope.test_index];
-    }
-
-    $scope.prev_test = function() {
-      console.log($scope.test_index)
-      if ($scope.test_index > 0) {
-        $scope.test_index -= 1
-      } else {
-        $scope.test_index = $scope.tests.length - 1;
-      }
-
-      $scope.test = $scope.tests[$scope.test_index];
-    }
-
   }]).
   
   // =========================================
@@ -74,7 +60,7 @@ angular.module('app.controllers', []).
 
     $scope.postTest = function() {
       console.log($scope.postData);
-      $http.post('/tests/', $scope.postData).
+      $http.post('/tests/create/', $scope.postData).
         success(function(data) {
           console.log(data);
           $scope.tests.push(data);

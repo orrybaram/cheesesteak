@@ -18,24 +18,27 @@ class MainHandler(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template('index.html')
         self.response.write(template.render())
 
-class ABTests(webapp2.RequestHandler):
-    def get(self):        
+class Tests(webapp2.RequestHandler):
+    def get(self, test_key=None):        
         values = []
-        
-        tests = ABTestModel.all().order('date_updated').fetch(100)
-        
-        for test in tests:
-            values.append(test.serializable());
+        if test_key:
+            test = TestModel.get(test_key)
+            values.append(test.serializable())
+        else:
+            tests = TestModel.all().order('date_updated').fetch(100)
+            for test in tests:
+                values.append(test.serializable());
 
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(json.dumps(values))
 
+class CreateTest(webapp2.RequestHandler):
     def post(self):
         data = json.loads(self.request.body)
-        test = ABTestModel()
+        test = TestModel()
 
-        logging.info(data.get('B_image'))
-
+        test.title = data.get('title')
+        test.user = data.get('user')
         test.A_name = data.get('A_name')
         test.B_name = data.get('B_name')
         test.A_image = db.Blob(str(data.get('A_image')))
@@ -46,11 +49,14 @@ class ABTests(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(json.dumps(test.serializable()))
 
-class ABTestModel(db.Model):
+
+class TestModel(db.Model):
     date_created = db.DateTimeProperty(auto_now_add=True)
     date_updated = db.DateTimeProperty(auto_now=True)
     product_name = db.StringProperty()
     product_description = db.StringProperty()
+    title = db.StringProperty()
+    user = db.StringProperty()
     A_name = db.StringProperty()
     A_image = db.BlobProperty()
     B_name = db.StringProperty()
@@ -58,8 +64,11 @@ class ABTestModel(db.Model):
 
     def serializable(self):
         result = {}
+        result['key'] = str(self.key())
         result['date_created'] = '%s+00:00' % self.date_created.isoformat()
         result['date_created'] = '%s+00:00' % self.date_updated.isoformat()
+        result['title'] = self.title
+        result['user'] = self.user
         result['A_name'] = self.A_name
         result['A_image'] = self.A_image
         result['B_name'] = self.B_name
@@ -67,17 +76,9 @@ class ABTestModel(db.Model):
         
         return result
 
-# class ImageHandler(webapp2.RequestHandler):
-#     def get(self):
-#         test = db.get(self.request.get('img_id'))
-#         if greeting.avatar:
-#             self.response.headers['Content-Type'] = 'image/png'
-#             self.response.out.write(greeting.avatar)
-#         else:
-#             self.response.out.write('No image')
-
-
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/tests/?', ABTests),
+    ('/tests/?', Tests),
+    ('/tests/(?P<test_key>[^/]+)/?', Tests),
+    ('/tests/create/?', CreateTest),
 ], debug=True)

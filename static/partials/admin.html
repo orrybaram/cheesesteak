@@ -1,4 +1,8 @@
 <form enctype="multipart/form-data" ng-submit="postTest()">
+	<div>
+		<input ng-model="postData.title" placeholder="title" required />
+		<input ng-model="postData.user" placeholder="your name" required />
+	</div>
 	<div class="product">
 		<input ng-model="postData.A_name" placeholder="name" required/>
 		<input type="file" ng-model="postData.A_image" fileread="postData.A_image" required/>
