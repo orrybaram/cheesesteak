@@ -67,15 +67,15 @@ angular.module('app.controllers', []).
   
   controller('AdminCtrl', ['$scope', '$http', function($scope, $http) {
     
-    // TODO: centralize the getting of tests
+    window.scope = $scope;
+    $scope.postData = {};
     $scope.tests = []
+    
+    // TODO: centralize the getting of tests
 
     $http.get('/tests/').success(function(data){
       $scope.tests = data;
     })
-
-    window.scope = $scope;
-    $scope.postData = {};
 
     $scope.postTest = function() {
       // Edit existing Test
@@ -98,7 +98,6 @@ angular.module('app.controllers', []).
           success(function(data) {
             $scope.tests.push(data);
             $scope.postData = {};
-
           })
         ;
       }

@@ -33,7 +33,7 @@ class Tests(webapp2.RequestHandler):
         self.response.out.write(json.dumps(values))
 
 class CreateTest(webapp2.RequestHandler):
-    def post(self, test_key):
+    def post(self, test_key=None):
         if test_key:
             test = TestModel.get(test_key)
         else:
@@ -103,15 +103,14 @@ class TestModel(db.Model):
         result['B_image'] = self.B_image
         result['B_votes'] = self.B_votes
 
-        
         return result
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/tests/?', Tests),
     ('/tests/create/?', CreateTest),
-    ('/tests/(?P<test_key>[^/]+)/update/?', CreateTest),
     ('/tests/(?P<test_key>[^/]+)/?', Tests),
+    ('/tests/(?P<test_key>[^/]+)/update/?', CreateTest),
     ('/tests/(?P<test_key>[^/]+)/vote/?', Vote),
     
     
