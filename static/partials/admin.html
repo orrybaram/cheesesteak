@@ -5,12 +5,12 @@
 	</div>
 	<div class="product">
 		<input ng-model="postData.A_name" placeholder="description" />
-		<input type="file" ng-model="postData.A_image" fileread="postData.A_image" required/>
+		<input type="file" ng-model="postData.A_image" fileread="postData.A_image" />
 		<img ng-show="postData.A_image" ng-src="{{postData.A_image}}" />
 	</div>
 	<div class="product">
 		<input ng-model="postData.B_name" placeholder="description" />
-		<input type="file" ng-model="postData.B_image" fileread="postData.B_image" required/>
+		<input type="file" ng-model="postData.B_image" fileread="postData.B_image" />
 		<img ng-show="postData.B_image" ng-src="{{postData.B_image}}" />
 	</div>
 	<button>Add</button>
@@ -26,6 +26,8 @@
 		<th>Product B</th>
 		<th></th>
 		<th></th>
+		<th>URL</th>
+		<th></th>
 	</tr>
 	<tr ng-repeat="test in tests">
 		<td><a ng-href="#/tests/{{test.key}}">{{test.title}}</a></td>
@@ -36,5 +38,7 @@
 		<td>{{test.B_name}}</td>
 		<td><img ng-src="{{test.B_image}}" /></td>
 		<td>{{test.B_votes}} votes</td>
+		<td><a ng-href="#/tests/{{test.key}}">#/tests/{{test.key}}</a></td>
+		<td ng-click="editTest(test)">edit</td>
 	</tr>
 </table>

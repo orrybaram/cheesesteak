@@ -33,9 +33,13 @@ class Tests(webapp2.RequestHandler):
         self.response.out.write(json.dumps(values))
 
 class CreateTest(webapp2.RequestHandler):
-    def post(self):
+    def post(self, test_key):
+        if test_key:
+            test = TestModel.get(test_key)
+        else:
+            test = TestModel()
+
         data = json.loads(self.request.body)
-        test = TestModel()
 
         test.title = data.get('title')
         test.user = data.get('user')
@@ -106,6 +110,7 @@ app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/tests/?', Tests),
     ('/tests/create/?', CreateTest),
+    ('/tests/(?P<test_key>[^/]+)/update/?', CreateTest),
     ('/tests/(?P<test_key>[^/]+)/?', Tests),
     ('/tests/(?P<test_key>[^/]+)/vote/?', Vote),
     
