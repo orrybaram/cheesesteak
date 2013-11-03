@@ -105,8 +105,9 @@ class TestModel(db.Model):
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/tests/?', Tests),
+    ('/tests/create/?', CreateTest),
     ('/tests/(?P<test_key>[^/]+)/?', Tests),
     ('/tests/(?P<test_key>[^/]+)/vote/?', Vote),
-    ('/tests/create/?', CreateTest)
+    
     
 ], debug=True)
