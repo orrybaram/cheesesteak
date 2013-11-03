@@ -1,4 +1,6 @@
 from google.appengine.ext import db
+from google.appengine.api import users
+
 from datetime import datetime, timedelta
 
 import webapp2
@@ -15,8 +17,26 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
+        current_user = users.get_current_user()
+        values = {}
+        
+        if current_user:
+            values["logout_url"] = users.create_logout_url('/')
+            
+            user = UserModel.all().filter('userid =', current_user.user_id()).get()
+
+            if not user:
+                user = UserModel()
+                user.name = str(user)
+                user.userid = user.user_id()
+                user.put()
+            values["user"] = user
+
+        else:
+            values["login_url"] = users.create_login_url('/')
+        
         template = JINJA_ENVIRONMENT.get_template('index.html')
-        self.response.write(template.render())
+        self.response.write(template.render(values))
 
 class Tests(webapp2.RequestHandler):
     def get(self, test_key=None):        
@@ -42,7 +62,7 @@ class CreateTest(webapp2.RequestHandler):
         data = json.loads(self.request.body)
 
         test.title = data.get('title')
-        test.user = data.get('user')
+        test.user = users.get_current_user()
         
         test.A_name = data.get('A_name')
         test.A_image = db.Blob(str(data.get('A_image')))
@@ -71,12 +91,21 @@ class Vote(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(json.dumps(test.serializable()))
 
+class UserModel(db.Model):
+    userid = db.StringProperty()
+    name = db.StringProperty()
+
+    def serializable(self):
+        result = {}
+        result["key"] = str(self.key())
+        result["name"] = self.name
+        result["userid"] = self.userid
 
 class TestModel(db.Model):
     date_created = db.DateTimeProperty(auto_now_add=True)
     date_updated = db.DateTimeProperty(auto_now=True)
     title = db.StringProperty()
-    user = db.StringProperty()
+    user = db.UserProperty()
     
     A_name = db.StringProperty()
     A_image = db.BlobProperty()
@@ -93,7 +122,7 @@ class TestModel(db.Model):
         result['date_created'] = '%s+00:00' % self.date_created.isoformat()
         result['date_created'] = '%s+00:00' % self.date_updated.isoformat()
         result['title'] = self.title
-        result['user'] = self.user
+        result['user'] = str(self.user)
         
         result['A_name'] = self.A_name
         result['A_image'] = self.A_image
