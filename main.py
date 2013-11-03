@@ -71,6 +71,7 @@ class CreateTest(webapp2.RequestHandler):
 
         test.title = data.get('title')
         test.user = users.get_current_user()
+        test.is_public = data.get('is_public')
         
         test.A_name = data.get('A_name')
         test.A_image = db.Blob(str(data.get('A_image')))
@@ -115,7 +116,8 @@ class TestModel(db.Model):
     date_updated = db.DateTimeProperty(auto_now=True)
     title = db.StringProperty()
     user = db.UserProperty()
-    
+    is_public = db.BooleanProperty(default=True)
+
     A_name = db.StringProperty()
     A_image = db.BlobProperty()
     A_votes = db.IntegerProperty(default=0)
@@ -124,6 +126,8 @@ class TestModel(db.Model):
     B_image = db.BlobProperty()
     B_votes = db.IntegerProperty(default=0)
 
+
+
     def serializable(self):
         result = {}
         result['key'] = str(self.key())
@@ -131,6 +135,7 @@ class TestModel(db.Model):
         result['date_created'] = '%s+00:00' % self.date_updated.isoformat()
         result['title'] = self.title
         result['user'] = str(self.user)
+        result['is_public'] = self.is_public
         
         result['A_name'] = self.A_name
         result['A_image'] = self.A_image

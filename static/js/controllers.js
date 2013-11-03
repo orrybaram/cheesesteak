@@ -68,7 +68,46 @@ angular.module('app.controllers', []).
   
   controller('UserCtrl', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
     
+    window.scope = $scope;
+    $scope.postData = {};
+    $scope.tests = []
     
+    // TODO: centralize the getting of tests
+
+    $http.get('/tests/').success(function(data){
+      $scope.tests = data;
+    })
+
+    $scope.postTest = function() {
+      // Edit existing Test
+      if ($scope.editing_test) {
+        $http.post('/tests/' + $scope.postData.key + '/update/', $scope.postData).
+          success(function(data) {
+            $scope.postData = {};
+            $scope.editing_test = false;
+            for (var i = $scope.tests.length - 1; i >= 0; i--) {
+              if($scope.tests[i].key === data.key) {
+                $scope.tests[i] = data;
+              }
+            };
+          })
+        ;
+
+      // Create New Test
+      } else {
+        $http.post('/tests/create/', $scope.postData).
+          success(function(data) {
+            $scope.tests.push(data);
+            $scope.postData = {};
+          })
+        ;
+      }
+    }
+    $scope.editTest = function(test) {
+      $scope.postData = angular.copy(test);
+      $scope.editing_test = true;
+      
+    }
 
   
   }]).

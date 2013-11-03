@@ -15,5 +15,6 @@ config(['$routeProvider', function($routeProvider, $rootScope) {
   	$routeProvider.when('/user/:userId', {templateUrl: 'partials/user.html', controller: 'UserCtrl'});
 	$routeProvider.when('/admin', {templateUrl: 'partials/admin.html', controller: 'AdminCtrl'});
 	$routeProvider.otherwise({redirectTo: '/'});
+
 }]);
 
