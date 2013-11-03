@@ -16,7 +16,14 @@
 		</div>
 		<h2>{{ test.B_name }}</h2>
 	</div>
+	<div ng-show="user_has_voted">
+		<h4>Results:</h4>
+		<p>Test A has {{test.A_votes}} votes</p>
+		<p>Test B has {{test.B_votes}} votes</p>
+	</div>
+	<!--
 	<div id="controls">
 		<a ng-href="/tests/{{prev_test}}">« prev</a>
 		<a ng-href="/tests/{{next_test}}">next »</a>
 	</div>
+	-->

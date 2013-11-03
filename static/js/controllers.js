@@ -27,30 +27,39 @@ angular.module('app.controllers', []).
 
     // TODO: centralize the getting of tests
     $http.get('/tests/' + $routeParams.testKey).success(function(data){
-      $scope.test = data[0];
+      $scope.test = data;
     })
 
 
     $scope.vote_for_a = function() {
-      $scope.test.voted_for_a = true;
-      $scope.test.voted_for_b = false;
+      if(!$scope.user_has_voted) {
 
-      $http.post('/tests/' + $routeParams.testKey + '/vote/', {vote: 'A'}).
-        success(function(data) {
-          console.log(data)
-        })
-      ;
+        $scope.test.voted_for_a = true;
+        $scope.test.voted_for_b = false;
+
+        $http.post('/tests/' + $routeParams.testKey + '/vote/', {vote: 'A'}).
+          success(function(data) {
+            console.log(data)
+            $scope.user_has_voted = true;
+            $scope.test = data;
+          })
+        ;
+      }
     }
 
     $scope.vote_for_b = function() {
-      $scope.test.voted_for_a = false;
-      $scope.test.voted_for_b = true;
+      if(!$scope.user_has_voted) {  
+        $scope.test.voted_for_a = false;
+        $scope.test.voted_for_b = true;
 
-      $http.post('/tests/' + $routeParams.testKey + '/vote/', {vote: 'B'}).
-        success(function(data) {
-          console.log(data)
-        })
-      ;
+        $http.post('/tests/' + $routeParams.testKey + '/vote/', {vote: 'B'}).
+          success(function(data) {
+            console.log(data)
+            $scope.user_has_voted = true;
+            $scope.test = data;
+          })
+        ;
+      }
     }
   }]).
   
@@ -65,7 +74,6 @@ angular.module('app.controllers', []).
     $http.get('/tests/').success(function(data){
       $scope.tests = data;
     })
-
 
     window.scope = $scope;
     $scope.postData = {};

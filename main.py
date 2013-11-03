@@ -23,7 +23,7 @@ class Tests(webapp2.RequestHandler):
         values = []
         if test_key:
             test = TestModel.get(test_key)
-            values.append(test.serializable())
+            values = test.serializable()
         else:
             tests = TestModel.all().order('date_updated').fetch(100)
             for test in tests:
@@ -76,11 +76,11 @@ class TestModel(db.Model):
     
     A_name = db.StringProperty()
     A_image = db.BlobProperty()
-    #A_votes = db.IntegerProperty(default=0)
+    A_votes = db.IntegerProperty(default=0)
     
     B_name = db.StringProperty()
     B_image = db.BlobProperty()
-    #B_votes = db.IntegerProperty(default=0)
+    B_votes = db.IntegerProperty(default=0)
 
 
     def serializable(self):
@@ -93,11 +93,11 @@ class TestModel(db.Model):
         
         result['A_name'] = self.A_name
         result['A_image'] = self.A_image
-        #result['A_votes'] = self.A_votes
+        result['A_votes'] = self.A_votes
         
         result['B_name'] = self.B_name
         result['B_image'] = self.B_image
-        #result['B_votes'] = self.B_votes
+        result['B_votes'] = self.B_votes
 
         
         return result
