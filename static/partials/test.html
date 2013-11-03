@@ -1,0 +1,22 @@
+
+	<h2>{{ test.title }}</h2>
+	<h5>by {{ test.user }}<h5>
+	<div class="product" ng-click="vote_for_a()">
+		<div class="img-wrapper">
+			<img ng-src="{{test.A_image}}" />
+			<h3 ng-show="test.voted_for_a">Voted</h3>
+		</div>
+		<h2>{{ test.A_name }}</h2>
+	</div>
+
+	<div class="product" ng-click="vote_for_b()">
+		<div class="img-wrapper">
+			<img ng-src="{{test.B_image}}" />
+			<h3 ng-show="test.voted_for_b">Voted</h3>
+		</div>
+		<h2>{{ test.B_name }}</h2>
+	</div>
+	<div id="controls">
+		<a ng-href="/tests/{{prev_test}}">« prev</a>
+		<a ng-href="/tests/{{next_test}}">next »</a>
+	</div>
