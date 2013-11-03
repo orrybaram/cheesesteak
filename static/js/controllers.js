@@ -34,11 +34,23 @@ angular.module('app.controllers', []).
     $scope.vote_for_a = function() {
       $scope.test.voted_for_a = true;
       $scope.test.voted_for_b = false;
+
+      $http.post('/tests/' + $routeParams.testKey + '/vote/', {vote: 'A'}).
+        success(function(data) {
+          console.log(data)
+        })
+      ;
     }
 
     $scope.vote_for_b = function() {
       $scope.test.voted_for_a = false;
       $scope.test.voted_for_b = true;
+
+      $http.post('/tests/' + $routeParams.testKey + '/vote/', {vote: 'B'}).
+        success(function(data) {
+          console.log(data)
+        })
+      ;
     }
   }]).
   
@@ -60,7 +72,7 @@ angular.module('app.controllers', []).
 
     $scope.postTest = function() {
       console.log($scope.postData);
-      $http.post('/tests/create/', $scope.postData).
+      $http.post('/tests/create', $scope.postData).
         success(function(data) {
           console.log(data);
           $scope.tests.push(data);

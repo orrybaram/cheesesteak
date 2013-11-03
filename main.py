@@ -39,10 +39,28 @@ class CreateTest(webapp2.RequestHandler):
 
         test.title = data.get('title')
         test.user = data.get('user')
+        
         test.A_name = data.get('A_name')
-        test.B_name = data.get('B_name')
         test.A_image = db.Blob(str(data.get('A_image')))
+        
+        test.B_name = data.get('B_name')
         test.B_image = db.Blob(str(data.get('B_image')))
+
+        test.put()
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(json.dumps(test.serializable()))
+
+class Vote(webapp2.RequestHandler):
+    def post(self, test_key):
+        test = TestModel.get(test_key)
+
+        data = json.loads(self.request.body)
+
+        if data.get('vote') == 'A':        
+            test.A_votes += 1
+        if data.get('vote') == 'B':
+            test.B_votes += 1
 
         test.put()
 
@@ -53,14 +71,17 @@ class CreateTest(webapp2.RequestHandler):
 class TestModel(db.Model):
     date_created = db.DateTimeProperty(auto_now_add=True)
     date_updated = db.DateTimeProperty(auto_now=True)
-    product_name = db.StringProperty()
-    product_description = db.StringProperty()
     title = db.StringProperty()
     user = db.StringProperty()
+    
     A_name = db.StringProperty()
     A_image = db.BlobProperty()
+    #A_votes = db.IntegerProperty(default=0)
+    
     B_name = db.StringProperty()
     B_image = db.BlobProperty()
+    #B_votes = db.IntegerProperty(default=0)
+
 
     def serializable(self):
         result = {}
@@ -69,10 +90,15 @@ class TestModel(db.Model):
         result['date_created'] = '%s+00:00' % self.date_updated.isoformat()
         result['title'] = self.title
         result['user'] = self.user
+        
         result['A_name'] = self.A_name
         result['A_image'] = self.A_image
+        #result['A_votes'] = self.A_votes
+        
         result['B_name'] = self.B_name
         result['B_image'] = self.B_image
+        #result['B_votes'] = self.B_votes
+
         
         return result
 
@@ -80,5 +106,7 @@ app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/tests/?', Tests),
     ('/tests/(?P<test_key>[^/]+)/?', Tests),
-    ('/tests/create/?', CreateTest),
+    ('/tests/(?P<test_key>[^/]+)/vote/?', Vote),
+    ('/tests/create/?', CreateTest)
+    
 ], debug=True)
