@@ -12,7 +12,8 @@
 		<input type="file" ng-model="postData.B_image" fileread="postData.B_image" />
 		<img ng-show="postData.B_image" ng-src="{{postData.B_image}}" />
 	</div>
-	<input type="checkbox" ng-model="postData.is_public" checked />
+	Public?
+	<input type="checkbox" ng-model="postData.is_public" checked="checked" />
 	<button>Add</button>
 </form>
 
@@ -27,6 +28,7 @@
 		<th></th>
 		<th></th>
 		<th>URL</th>
+		<th>public?</th>
 		<th></th>
 	</tr>
 	<tr ng-repeat="test in tests">
@@ -39,6 +41,7 @@
 		<td><img ng-if="test.B_image !== 'None'" ng-src="{{test.B_image}}" /></td>
 		<td>{{test.B_votes}} votes</td>
 		<td><a ng-href="#/tests/{{test.key}}">#/tests/{{test.key}}</a></td>
+		<td>{{test.is_public}}</td>
 		<td ng-click="editTest(test)">edit</td>
 	</tr>
 </table>

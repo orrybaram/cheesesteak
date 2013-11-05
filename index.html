@@ -3,21 +3,22 @@
 <head>
   <meta charset="utf-8">
   <title>This or That</title>
-  <link rel="stylesheet" href="css/normalize.css"/>
-  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/main.css"/>
 </head>
 <body>
-<header>
-  {% if user %}
-    Hi, {{ user.name }}
-    <a href="#/user/{{user.name}}">Your tests</a>
-    <a href="{{logout_url}}">Logout</a>
-  {% else %}
-    <a href="{{login_url}}">Login</a>
-  {% endif %}
+<header class="cf">
+   <h1><a href="/">This or That</a></h1>
+   <div class="user-nav">
+    {% if user %}
+      Hi, {{ user.name }}
+      <a href="#/user/{{user.name}}">Your tests</a>
+      <a href="{{logout_url}}">Logout</a>
+    {% else %}
+      <a href="{{login_url}}">Login</a>
+    {% endif %}
+  </div>
 </header>
   <div class="wrapper">  
-    <h1><a href="/">This or That</a></h1>
     <div ng-view></div>
   </div>
   <script src="lib/angular/angular.js"></script>

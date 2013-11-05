@@ -2,13 +2,27 @@ body {
 	background:#F5F5F5;
 }
 
-h1 {
-	color: #FF2FC5;
-	font-size: 40px;
-	text-align: center;
-	margin: 0 0 40px;
+a {
+	color: green;
+	text-decoration: none;
 }
 
+header {
+	background: #033126; 
+	color: white;}
+
+	header h1 {
+		font-size: 30px;
+		margin: 10px 20px;
+		display: inline-block; 
+		float:left;}
+		
+		header a { color: white; }
+	
+	header .user-nav {
+		float:right;
+	}
+	 
 /* MAIN PAGE */
 .wrapper {
 	padding: 50px;

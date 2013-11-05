@@ -32,6 +32,7 @@ angular.module('app.controllers', []).
     // TODO: centralize the getting of tests
     $http.get('/tests/' + $routeParams.testKey).success(function(data){
       $scope.test = data;
+      console.log(data);
     })
 
 

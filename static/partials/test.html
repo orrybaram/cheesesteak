@@ -3,7 +3,7 @@
 	<h5>by {{ test.user }}<h5>
 	<div class="product" ng-click="vote_for_a()">
 		<div class="img-wrapper">
-			<img ng-src="{{test.A_image}}" />
+			<img ng-if="test.A_image !== 'None'" ng-src="{{test.A_image}}" />
 			<h3 ng-show="test.voted_for_a">Voted</h3>
 		</div>
 		<h2>{{ test.A_name }}</h2>
@@ -11,7 +11,7 @@
 
 	<div class="product" ng-click="vote_for_b()">
 		<div class="img-wrapper">
-			<img ng-src="{{test.B_image}}" />
+			<img ng-if="test.B_image !== 'None'" ng-src="{{test.B_image}}" />
 			<h3 ng-show="test.voted_for_b">Voted</h3>
 		</div>
 		<h2>{{ test.B_name }}</h2>
