@@ -7900,34 +7900,8 @@ a.th {
 body {
   background: #F5F5F5; }
 
-/* line 5, ../scss/style.scss */
-a {
-  color: green;
-  text-decoration: none; }
-
-/* line 10, ../scss/style.scss */
-header {
-  background: #033126;
-  color: white; }
-  /* line 14, ../scss/style.scss */
-  header h1 {
-    font-size: 30px;
-    margin: 10px 20px;
-    display: inline-block;
-    float: left; }
-  /* line 21, ../scss/style.scss */
-  header a {
-    color: white; }
-  /* line 23, ../scss/style.scss */
-  header .user-nav {
-    float: right; }
-
 /* MAIN PAGE */
-/* line 29, ../scss/style.scss */
-.wrapper {
-  padding: 50px; }
-
-/* line 33, ../scss/style.scss */
+/* line 6, ../scss/style.scss */
 .product {
   background-color: white;
   display: inline-block;
@@ -7938,14 +7912,14 @@ header {
   margin: 0 3%;
   vertical-align: top;
   width: 100%; }
-  /* line 44, ../scss/style.scss */
+  /* line 17, ../scss/style.scss */
   .product .img-wrapper {
     position: relative; }
-  /* line 48, ../scss/style.scss */
+  /* line 21, ../scss/style.scss */
   .product img {
     width: 100%;
     vertical-align: bottom; }
-  /* line 53, ../scss/style.scss */
+  /* line 26, ../scss/style.scss */
   .product h3 {
     position: absolute;
     bottom: 0;
@@ -7958,28 +7932,12 @@ header {
     text-shadow: 0 -1px #008000;
     padding: 10px; }
 
-/* line 67, ../scss/style.scss */
+/* line 40, ../scss/style.scss */
 #controls {
   text-align: center;
   margin: 40px 0; }
 
 /* ADMIN PAGE */
-/* line 73, ../scss/style.scss */
-table {
-  margin: 100px; }
-
-/* line 76, ../scss/style.scss */
+/* line 47, ../scss/style.scss */
 table img {
   width: 50px; }
-
-/* line 80, ../scss/style.scss */
-button {
-  border: 0;
-  background-color: #B6078C;
-  padding: 20px;
-  font-size: 20px;
-  color: #FFF;
-  border-radius: 5px;
-  display: block;
-  width: 100%;
-  margin: 30px 0 0; }

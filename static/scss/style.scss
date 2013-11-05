@@ -2,34 +2,7 @@ body {
 	background:#F5F5F5;
 }
 
-a {
-	color: green;
-	text-decoration: none;
-}
-
-header {
-	background: #033126; 
-	color: white;
-
-	h1 {
-		font-size: 30px;
-		margin: 10px 20px;
-		display: inline-block; 
-		float:left;
-	}
-		
-	a { color: white; }
-	
-	.user-nav {
-		float:right;
-	}
-}
-
 /* MAIN PAGE */
-.wrapper {
-	padding: 50px;
-}
-
 .product {
 	background-color: white;
 	display: inline-block;
@@ -70,21 +43,7 @@ header {
 }
 
 /* ADMIN PAGE */
-table {
-	margin: 100px;
-}
+
 table img {
 	width: 50px
-}
-
-button {
-	border: 0;
-	background-color: #B6078C;
-	padding: 20px;
-	font-size: 20px;
-	color: #FFF;
-	border-radius: 5px;
-	display: block;
-	width: 100%;
-	margin: 30px 0 0;
 }

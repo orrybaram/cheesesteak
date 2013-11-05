@@ -1,21 +1,28 @@
-<form enctype="multipart/form-data" ng-submit="postTest()">
-	<div>
-		<input ng-model="postData.title" placeholder="title" required />
+<div class="row">
+	<form enctype="multipart/form-data" ng-submit="postTest()">
+		<div>
+			<input ng-model="postData.title" placeholder="title" required />
+		</div>
+		<div class="columns large-6">
+			<div class="product">
+				<input ng-model="postData.A_name" placeholder="description" />
+				<input type="file" ng-model="postData.A_image" fileread="postData.A_image" />
+				<img ng-show="postData.A_image" ng-src="{{postData.A_image}}" />
+			</div>
+		</div>
+	<div class="columns large-6">
+
+		<div class="product">
+			<input ng-model="postData.B_name" placeholder="description" />
+			<input type="file" ng-model="postData.B_image" fileread="postData.B_image" />
+			<img ng-show="postData.B_image" ng-src="{{postData.B_image}}" />
+		</div>
 	</div>
-	<div class="product">
-		<input ng-model="postData.A_name" placeholder="description" />
-		<input type="file" ng-model="postData.A_image" fileread="postData.A_image" />
-		<img ng-show="postData.A_image" ng-src="{{postData.A_image}}" />
-	</div>
-	<div class="product">
-		<input ng-model="postData.B_name" placeholder="description" />
-		<input type="file" ng-model="postData.B_image" fileread="postData.B_image" />
-		<img ng-show="postData.B_image" ng-src="{{postData.B_image}}" />
-	</div>
-	Public?
-	<input type="checkbox" ng-model="postData.is_public" checked="checked" />
-	<button>Add</button>
-</form>
+		Public?
+		<input type="checkbox" ng-model="postData.is_public" checked="checked" />
+		<button>Add</button>
+	</form>
+</div>
 
 <table>
 	<tr>
