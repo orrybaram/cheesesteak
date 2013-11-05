@@ -43,13 +43,17 @@ class Tests(webapp2.RequestHandler):
     def get(self, test_key=None):        
         user = UserModel.all().filter('userid =', users.get_current_user().user_id()).get()
 
-        values = []
+        # Test Page
         if test_key:
             test = TestModel.get(test_key)
             values = test.serializable()
         else:
+            values = []
+            # Admin Page
             if user.is_admin:    
                 tests = TestModel.all().order('date_updated').fetch(100)
+            
+            # Get User's Tests
             else:
                 tests = TestModel.all().filter('user =', users.get_current_user()).fetch(100)
                 logging.info(user.name)
@@ -57,6 +61,15 @@ class Tests(webapp2.RequestHandler):
             for test in tests:
                 values.append(test.serializable());
 
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(json.dumps(values))
+
+class PublicTests(webapp2.RequestHandler):
+    def get(self):
+        values = []
+        tests = TestModel.all().filter('is_public = ', True).fetch(100)
+        for test in tests:
+            values.append(test.serializable());
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(json.dumps(values))
 
@@ -150,6 +163,7 @@ class TestModel(db.Model):
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/tests/?', Tests),
+    ('/tests/public/?', PublicTests),
     ('/tests/create/?', CreateTest),
     ('/tests/(?P<test_key>[^/]+)/?', Tests),
     ('/tests/(?P<test_key>[^/]+)/update/?', CreateTest),

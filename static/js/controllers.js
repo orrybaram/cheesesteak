@@ -10,11 +10,15 @@ angular.module('app.controllers', []).
   controller('MainCtrl', ['$scope', '$http', '$timeout', '$routeParams', function($scope, $http, $timeout, $routeParams) {
       $scope.tests = [];
       // TODO: centralize the getting of tests
-      $http.get('/tests/').success(function(data){
+      $http.get('/tests/public/').success(function(data){
       $scope.tests = data;
       $scope.test = $scope.tests[$scope.test_index];
     })
   }]).
+
+// =========================================
+// TEST PAGE CONTROLLER 
+// =========================================
 
   controller('TestCtrl', ['$scope', '$http', '$timeout', '$routeParams', function($scope, $http, $timeout, $routeParams) {
     
@@ -63,7 +67,7 @@ angular.module('app.controllers', []).
   
   
   // =========================================
-  // USER CONTROLLER 
+  // USER PAGE CONTROLLER 
   // =========================================
   
   controller('UserCtrl', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
@@ -108,8 +112,6 @@ angular.module('app.controllers', []).
       $scope.editing_test = true;
       
     }
-
-  
   }]).
 
 
