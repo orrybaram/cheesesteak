@@ -41,7 +41,8 @@ class MainHandler(webapp2.RequestHandler):
 
 class Tests(webapp2.RequestHandler):
     def get(self, test_key=None):        
-        user = UserModel.all().filter('userid =', users.get_current_user().user_id()).get()
+        if users.get_current_user():
+            user = UserModel.all().filter('userid =', users.get_current_user().user_id()).get()
 
         # Test Page
         if test_key:
