@@ -9,27 +9,28 @@ a {
 
 header {
 	background: #033126; 
-	color: white;}
+	color: white;
 
-	header h1 {
+	h1 {
 		font-size: 30px;
 		margin: 10px 20px;
 		display: inline-block; 
-		float:left;}
+		float:left;
+	}
 		
-		header a { color: white; }
+	a { color: white; }
 	
-	header .user-nav {
+	.user-nav {
 		float:right;
 	}
-	 
+}
+
 /* MAIN PAGE */
 .wrapper {
 	padding: 50px;
 }
 
 .product {
-	width: 43%;
 	background-color: white;
 	display: inline-block;
 	cursor: pointer;
@@ -37,18 +38,19 @@ header {
 	border: 15px solid #FFF;
 	box-shadow: 0 0 4px #000;
 	margin: 0 3%;
-	vertical-align: top}
+	vertical-align: top;
+	width: 100%;
 
-	.product .img-wrapper {
+	.img-wrapper {
 		position: relative;
 	}
 
-	.product img {
+	img {
 		width: 100%;
 		vertical-align: bottom;
 	}
 
-	.product h3 {
+	h3 {
 		position: absolute;
 		bottom: 0;
 		left: 0;
@@ -60,6 +62,7 @@ header {
 		text-shadow: 0 -1px #008000;
 		padding: 10px;
 	}
+}
 
 #controls {
 	text-align: center;

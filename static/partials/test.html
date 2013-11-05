@@ -1,26 +1,31 @@
 
 	<h2>{{ test.title }}</h2>
 	<h5>by {{ test.user }}<h5>
-	<div class="product" ng-click="vote_for_a()">
-		<div class="img-wrapper">
-			<img ng-if="test.A_image !== 'None'" ng-src="{{test.A_image}}" />
-			<h3 ng-show="test.voted_for_a">Voted</h3>
+<div class="row">	
+	<div class="large-6 columns">
+		<div class="product" ng-click="vote_for_a()">
+			<div class="img-wrapper">
+				<img ng-if="test.A_image !== 'None'" ng-src="{{test.A_image}}" />
+				<h3 ng-show="test.voted_for_a">Voted</h3>
+			</div>
+			<h2>{{ test.A_name }}</h2>
 		</div>
-		<h2>{{ test.A_name }}</h2>
 	</div>
-
-	<div class="product" ng-click="vote_for_b()">
-		<div class="img-wrapper">
-			<img ng-if="test.B_image !== 'None'" ng-src="{{test.B_image}}" />
-			<h3 ng-show="test.voted_for_b">Voted</h3>
+	<div class="large-6 columns">
+		<div class="product" ng-click="vote_for_b()">
+			<div class="img-wrapper">
+				<img ng-if="test.B_image !== 'None'" ng-src="{{test.B_image}}" />
+				<h3 ng-show="test.voted_for_b">Voted</h3>
+			</div>
+			<h2>{{ test.B_name }}</h2>
 		</div>
-		<h2>{{ test.B_name }}</h2>
 	</div>
 	<div ng-show="user_has_voted">
 		<h4>Results:</h4>
 		<p>Test A has {{test.A_votes}} votes</p>
 		<p>Test B has {{test.B_votes}} votes</p>
 	</div>
+</div>
 	<!--
 	<div id="controls">
 		<a ng-href="/tests/{{prev_test}}">« prev</a>

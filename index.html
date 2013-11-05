@@ -6,27 +6,50 @@
   <link rel="stylesheet" href="css/main.css"/>
 </head>
 <body>
-<header class="cf">
-   <h1><a href="/">This or That</a></h1>
-   <div class="user-nav">
-    {% if user %}
-      Hi, {{ user.name }}
-      <a href="#/user/{{user.name}}">Your tests</a>
-      <a href="{{logout_url}}">Logout</a>
-    {% else %}
-      <a href="{{login_url}}">Login</a>
-    {% endif %}
-  </div>
-</header>
+<nav class="top-bar expanded">
+  <ul class="title-area">
+    <!-- Title Area -->
+    <li class="name">
+      <h1><a href="#">This or That</a></h1>
+    </li>
+    <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+  </ul>
+
+  <section class="top-bar-section" style="left: 0%;">
+    <!-- Right Nav Section -->
+    <ul class="right">
+      {% if user %}
+        <li><a href="#/user/{{user.name}}">{{ user.name }}</a></li>
+        <li class="divider"></li>
+        <li class="has-dropdown"><a href="#" style="padding:0">&nbsp;</a>
+          <ul class="dropdown">
+            <li><a href="{{logout_url}}">Logout</a></li>
+          </ul>
+        </li>
+      {% else %}
+      <li><a href="{{login_url}}">Login</a></li>
+      {% endif %}
+
+    </ul>
+  </section>
+</nav>
+
   <div class="wrapper">  
     <div ng-view></div>
   </div>
+  
   <script src="lib/angular/angular.js"></script>
   <script src="lib/angular/angular-route.js"></script>
+  <script src="lib/vendor/jquery.js"></script>
+  <script src="lib/foundation/foundation.js"></script>
+  <script src="lib/foundation/foundation.topbar.js"></script>
   <script src="js/app.js"></script>
   <script src="js/services.js"></script>
   <script src="js/controllers.js"></script>
   <script src="js/filters.js"></script>
   <script src="js/directives.js"></script>
+  
+
 </body>
 </html>

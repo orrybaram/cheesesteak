@@ -18,3 +18,4 @@ config(['$routeProvider', function($routeProvider, $rootScope) {
 
 }]);
 
+$(document).foundation();
