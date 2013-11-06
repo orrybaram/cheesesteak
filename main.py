@@ -59,12 +59,11 @@ class Tests(webapp2.RequestHandler):
             votes = test.get_votes()
 
             for vote in votes:
-                logging.info(vote)
                 _votes.append(vote)
 
-            test.votes = _votes
+            logging.info(_votes)
 
-            values = test.serializable()
+            values = {'test': test.serializable(), 'votes': _votes}
         else:
             values = []
             # Admin Page
