@@ -54,7 +54,16 @@ class Tests(webapp2.RequestHandler):
         # Test Page
         if test_key:
             test = TestModel.get(test_key)
-            test.votes = test.get_votes()
+
+            _votes = []
+            votes = test.get_votes()
+
+            for vote in votes:
+                logging.info(vote)
+                _votes.append(vote)
+
+            test.votes = _votes
+
             values = test.serializable()
         else:
             values = []
