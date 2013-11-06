@@ -39,7 +39,7 @@ angular.module('app.controllers', []).
     $scope.vote_for_a = function() {
       if(!$scope.user_has_voted) {
 
-        $http.post('/tests/' + $routeParams.testKey + '/vote/', {vote: 'A'}).
+        $http.post('/tests/' + $routeParams.testKey + '/vote/', {voted_for: 'A'}).
           success(function(data) {
             console.log(data)
             $scope.user_has_voted = true;
@@ -53,7 +53,7 @@ angular.module('app.controllers', []).
 
     $scope.vote_for_b = function() {
       if(!$scope.user_has_voted) {  
-        $http.post('/tests/' + $routeParams.testKey + '/vote/', {vote: 'B'}).
+        $http.post('/tests/' + $routeParams.testKey + '/vote/', {voted_for: 'B'}).
           success(function(data) {
             console.log(data)
             $scope.user_has_voted = true;
