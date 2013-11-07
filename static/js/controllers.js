@@ -90,23 +90,25 @@ controller('UserCtrl', ['$scope', '$http', '$routeParams', function($scope, $htt
 
     $http.get('/tests/').success(function(data){
         console.log(data)
-        $scope.tests = data.tests;
+        $scope.tests = data;
 
         // Distribute Votes
-        for (var i = 0; i < data.tests.length; i++) {
-            var test = data.tests[i]
+        for (var i = 0; i < $scope.tests.length; i++) {
+            var test = $scope.tests[i]
             
             $scope.tests[i].votes_a = [];
             $scope.tests[i].votes_b = [];
-
-            for (var j = 0; j < test.votes.length; j++) {
-                var vote = test.votes[j];
-                if (vote.voted_for === 'A') {
-                    $scope.tests[i].votes_a.push(vote);
-                } else {
-                    $scope.tests[i].votes_b.push(vote);
-                }
-            };
+            if (test.votes) {
+                for (var j = 0; j < test.votes.length; j++) {
+                    var vote = test.votes[j];
+                    if (vote.voted_for === 'A') {
+                        $scope.tests[i].votes_a.push(vote);
+                    } else {
+                        $scope.tests[i].votes_b.push(vote);
+                    }
+                };
+            }
+            
         };
 
     })
@@ -153,6 +155,13 @@ controller('UserCtrl', ['$scope', '$http', '$routeParams', function($scope, $htt
                 console.log(data)
             })
         ;
+        for (var i = 0; i < $scope.tests.length; i++) {
+            var _test = $scope.tests[i];
+            if(_test.key === test.key) {
+                $scope.tests.splice(i,1);
+                break;
+            }
+        };
     }
 
 }]).

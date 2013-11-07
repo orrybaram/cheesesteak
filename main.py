@@ -54,36 +54,49 @@ class Tests(webapp2.RequestHandler):
         # Test Page
         if test_key:
             test = TestModel.get(test_key)
-            test.votes = []
             _votes = test.get_votes()
 
             for vote in _votes:
                 test.votes.append(vote.serializable())
-
             values = test.serializable()
         else:
-            tests = []
+            values = []
             # Admin Page
             if user.is_admin:    
                 _tests = TestModel.all().order('date_updated').fetch(100)
-            
             # Get User's Tests
             else:
                 _tests = TestModel.all().filter('user =', users.get_current_user()).fetch(100)
-            
-            for test in _tests:
-                _votes = test.get_votes()
-                test.votes = []
+            if _tests:
+                for test in _tests:
+                    _votes = test.get_votes()
+                    for vote in _votes:
+                        test.votes.append(vote.serializable())
+                    values.append(test.serializable())
                 
-                for vote in _votes:
-                    test.votes.append(vote.serializable())
-                
-                tests.append(test.serializable())
-
-                values = {'tests': tests,}
-
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(json.dumps(values))
+
+class AdminTests(webapp2.RequestHandler):
+    def get(self, test_key=None):        
+        if users.get_current_user():
+            user = UserModel.all().filter('userid =', users.get_current_user().user_id()).get()
+
+        tests = []
+        if user.is_admin:    
+            _tests = TestModel.all().order('date_updated').fetch(100)
+        else:
+            return False
+        
+        for test in _tests:
+            _votes = test.get_votes()
+            test.votes = []
+            for vote in _votes:
+                test.votes.append(vote.serializable())
+            tests.append(test.serializable())
+            
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(json.dumps(tests))
 
 class PublicTests(webapp2.RequestHandler):
     def get(self):
