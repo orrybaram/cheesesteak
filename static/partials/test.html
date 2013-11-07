@@ -3,7 +3,7 @@
 	<h5>by {{ test.user }}<h5>
 <div class="row">	
 	<div class="large-6 columns">
-		<div class="product" ng-click="vote_for_a()">
+		<div class="product" ng-click="vote('A')">
 			<div class="img-wrapper">
 				<img ng-if="test.A_image !== 'None'" ng-src="{{test.A_image}}" />
 				<h3 ng-show="test.voted_for_a">Voted</h3>
@@ -12,7 +12,7 @@
 		</div>
 	</div>
 	<div class="large-6 columns">
-		<div class="product" ng-click="vote_for_b()">
+		<div class="product" ng-click="vote('B')">
 			<div class="img-wrapper">
 				<img ng-if="test.B_image !== 'None'" ng-src="{{test.B_image}}" />
 				<h3 ng-show="test.voted_for_b">Voted</h3>
@@ -22,8 +22,9 @@
 	</div>
 	<div ng-show="user_has_voted">
 		<h4>Results:</h4>
-		<p>Test A has {{test.A_votes}} votes</p>
-		<p>Test B has {{test.B_votes}} votes</p>
+		<p>Test A has {{ test.votes_a.length }} votes</p>
+		<p>Test B has {{ test.votes_b.length }} votes</p>
+		
 	</div>
 </div>
 	<!--
