@@ -88,9 +88,15 @@ class Tests(webapp2.RequestHandler):
 class PublicTests(webapp2.RequestHandler):
     def get(self):
         values = []
-        tests = TestModel.all().filter('is_public = ', True).fetch(100)
-        for test in tests:
+        _tests = TestModel.all().filter('is_public = ', True).fetch(100)
+        for test in _tests:
+            _votes = test.get_votes()
+            test.votes = []
+            
+            for vote in _votes:
+                test.votes.append(vote.serializable())
             values.append(test.serializable());
+        
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(json.dumps(values))
 
