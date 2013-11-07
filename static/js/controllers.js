@@ -115,6 +115,7 @@ controller('UserCtrl', ['$scope', '$http', '$routeParams', function($scope, $htt
             $http.post('/tests/' + $scope.postData.key + '/update/', $scope.postData).
                 success(function(data) {
                     $scope.postData = {};
+                    $scope.postData.is_public = true;
                     $scope.editing_test = false;
                     $scope.post_test_button_text = "Create Test";
                     for (var i = $scope.tests.length - 1; i >= 0; i--) {
@@ -131,6 +132,7 @@ controller('UserCtrl', ['$scope', '$http', '$routeParams', function($scope, $htt
                 success(function(data) {
                     $scope.tests.push(data);
                     $scope.postData = {};
+                    $scope.postData.is_public = true;
                     $scope.post_test_button_text = "Create Test";
                 })
             ;
