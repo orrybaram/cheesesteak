@@ -54,14 +54,11 @@ class Tests(webapp2.RequestHandler):
         # Test Page
         if test_key:
             test = TestModel.get(test_key)
-
             _votes = []
             votes = test.get_votes()
 
             for vote in votes:
-                _votes.append(vote)
-
-            logging.info(_votes)
+                _votes.append(vote.serializable())
 
             values = {'test': test.serializable(), 'votes': _votes}
         else:
@@ -76,7 +73,12 @@ class Tests(webapp2.RequestHandler):
                 logging.info(user.name)
             
             for test in tests:
-                values.append(test.serializable());
+                _votes = []
+                votes = test.get_votes()
+
+                for vote in votes:
+                    _votes.append(vote.serializable())
+                values = {'test': test.serializable(), 'votes': _votes}
 
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(json.dumps(values))

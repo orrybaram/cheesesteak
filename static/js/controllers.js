@@ -11,9 +11,11 @@ angular.module('app.controllers', []).
       $scope.tests = [];
       // TODO: centralize the getting of tests
       $http.get('/tests/public/').success(function(data){
-      $scope.tests = data;
-      $scope.test = $scope.tests[$scope.test_index];
-    })
+        $scope.tests = data;
+        $scope.test = $scope.tests[$scope.test_index];
+        console.log($scope.tests)
+
+      })
   }]).
 
 // =========================================
@@ -31,7 +33,8 @@ angular.module('app.controllers', []).
 
     // TODO: centralize the getting of tests
     $http.get('/tests/' + $routeParams.testKey).success(function(data){
-      $scope.test = data;
+      $scope.test = data.test;
+      $scope.votes = data.votes;
       console.log(data);
     })
 
