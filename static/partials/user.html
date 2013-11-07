@@ -20,7 +20,7 @@
 	</div>
 		Public?
 		<input type="checkbox" ng-model="postData.is_public" checked="checked" />
-		<button>Add</button>
+		<button>{{ post_test_button_text }}</button>
 	</form>
 </div>
 
@@ -43,12 +43,12 @@
 		<td>{{test.user}}</td>
 		<td>{{test.A_name}}</td>
 		<td><img ng-if="test.A_image !== 'None'" ng-src="{{test.A_image}}"/></td>
-		<td>{{test.A_votes}} votes</td>
+		<td>{{ test.votes_a.length }} votes</td>
 		<td>{{test.B_name}}</td>
 		<td><img ng-if="test.B_image !== 'None'" ng-src="{{test.B_image}}" /></td>
-		<td>{{test.B_votes}} votes</td>
+		<td>{{ test.votes_b.length }} votes</td>
 		<td><a ng-href="#/tests/{{test.key}}">#/tests/{{test.key}}</a></td>
 		<td>{{test.is_public}}</td>
-		<td ng-click="editTest(test)">edit</td>
+		<td><a ng-click="editTest(test)">edit</a> / <a ng-click="deleteTest(test)">delete</a></td>
 	</tr>
 </table>

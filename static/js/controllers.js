@@ -33,11 +33,15 @@ controller('TestCtrl', ['$scope', '$http', '$timeout', '$routeParams', function(
 
     // TODO: centralize the getting of tests
     $http.get('/tests/' + $routeParams.testKey).success(function(data){
-        $scope.test = data.test;
+        $scope.test = data;
         
+        console.log(data)
+
+
         $scope.test.votes_a = []
         $scope.test.votes_b = []
         
+        // Distribute Votes
         for (var i = 0; i < data.votes.length; i++) {
             var vote = data.votes[i];
             if (vote.voted_for === 'A') {
@@ -71,102 +75,135 @@ controller('TestCtrl', ['$scope', '$http', '$timeout', '$routeParams', function(
 }]).
 
 
-  // =========================================
-  // USER PAGE CONTROLLER 
-  // =========================================
+// =========================================
+// USER PAGE CONTROLLER 
+// =========================================
   
-  controller('UserCtrl', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
+controller('UserCtrl', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
 
     window.scope = $scope;
+    $scope.post_test_button_text = "Create Test";
     $scope.postData = {};
     $scope.tests = []
     
     // TODO: centralize the getting of tests
 
     $http.get('/tests/').success(function(data){
-      $scope.tests = data;
-  })
+        console.log(data)
+        $scope.tests = data.tests;
+
+        // Distribute Votes
+        for (var i = 0; i < data.tests.length; i++) {
+            var test = data.tests[i]
+            
+            $scope.tests[i].votes_a = [];
+            $scope.tests[i].votes_b = [];
+
+            for (var j = 0; j < test.votes.length; j++) {
+                var vote = test.votes[j];
+                if (vote.voted_for === 'A') {
+                    $scope.tests[i].votes_a.push(vote);
+                } else {
+                    $scope.tests[i].votes_b.push(vote);
+                }
+            };
+        };
+
+    })
 
     $scope.postTest = function() {
-      // Edit existing Test
-      if ($scope.editing_test) {
-        $http.post('/tests/' + $scope.postData.key + '/update/', $scope.postData).
-        success(function(data) {
-            $scope.postData = {};
-            $scope.editing_test = false;
-            for (var i = $scope.tests.length - 1; i >= 0; i--) {
-              if($scope.tests[i].key === data.key) {
-                $scope.tests[i] = data;
-            }
-        };
-    })
+        
+        // Edit existing Test
+        if ($scope.editing_test) {
+            $scope.post_test_button_text = "Updating...";
+            $http.post('/tests/' + $scope.postData.key + '/update/', $scope.postData).
+                success(function(data) {
+                    $scope.postData = {};
+                    $scope.editing_test = false;
+                    $scope.post_test_button_text = "Create Test";
+                    for (var i = $scope.tests.length - 1; i >= 0; i--) {
+                        if($scope.tests[i].key === data.key) {
+                            $scope.tests[i] = data;
+                        }
+                    };
+                })
+            ;
+        // Create New Test
+        } else {
+            $scope.post_test_button_text = "Adding...";
+            $http.post('/tests/create/', $scope.postData).
+                success(function(data) {
+                    $scope.tests.push(data);
+                    $scope.postData = {};
+                    $scope.post_test_button_text = "Create Test";
+                })
+            ;
+        }
+    }
+    $scope.editTest = function(test) {
+        $scope.postData = angular.copy(test);
+        $scope.editing_test = true;
+        $scope.post_test_button_text = "Update Test";
+    }
+
+    $scope.deleteTest = function(test) {
+        console.log(test)
+        $http.post('/tests/' + test.key + '/delete/').
+            success(function(data) {
+                console.log(data)
+            })
         ;
+    }
 
-      // Create New Test
-  } else {
-    $http.post('/tests/create/', $scope.postData).
-    success(function(data) {
-        $scope.tests.push(data);
-        $scope.postData = {};
-    })
-    ;
-}
-}
-$scope.editTest = function(test) {
-  $scope.postData = angular.copy(test);
-  $scope.editing_test = true;
-
-}
 }]).
 
 
 
-  // =========================================
-  // ADMIN CONTROLLER 
-  // =========================================
+// =========================================
+// ADMIN CONTROLLER 
+// =========================================
   
-  controller('AdminCtrl', ['$scope', '$http', function($scope, $http) {
+controller('AdminCtrl', ['$scope', '$http', function($scope, $http) {
 
     window.scope = $scope;
     $scope.postData = {};
-    $scope.tests = []
+    $scope.tests = [];
     
     // TODO: centralize the getting of tests
 
     $http.get('/tests/').success(function(data){
-      $scope.tests = data;
-  })
+        $scope.tests = data.tests;
+        $scope.votes = data.votes;
+    });
 
     $scope.postTest = function() {
-      // Edit existing Test
-      if ($scope.editing_test) {
-        $http.post('/tests/' + $scope.postData.key + '/update/', $scope.postData).
-        success(function(data) {
-            $scope.postData = {};
-            $scope.editing_test = false;
-            for (var i = $scope.tests.length - 1; i >= 0; i--) {
-              if($scope.tests[i].key === data.key) {
-                $scope.tests[i] = data;
-            }
-        };
-    })
-        ;
-
-      // Create New Test
-  } else {
-    $http.post('/tests/create/', $scope.postData).
-    success(function(data) {
-        $scope.tests.push(data);
-        $scope.postData = {};
-    })
-    ;
-}
-}
-$scope.editTest = function(test) {
-  $scope.postData = angular.copy(test);
-  $scope.editing_test = true;
-
-}
+        // Edit existing Test
+        if ($scope.editing_test) {
+            $http.post('/tests/' + $scope.postData.key + '/update/', $scope.postData).
+                success(function(data) {
+                    $scope.postData = {};
+                    $scope.editing_test = false;
+                    for (var i = $scope.tests.length - 1; i >= 0; i--) {
+                        if($scope.tests[i].key === data.key) {
+                            $scope.tests[i] = data;
+                        }
+                    };
+                })
+            ;
+        // Create New Test
+        } else {
+            $http.post('/tests/create/', $scope.postData).
+                success(function(data) {
+                    $scope.tests.push(data);
+                    $scope.postData = {};
+                })
+            ;
+        }
+    }
+    $scope.editTest = function(test) {
+        $scope.postData = angular.copy(test);
+        $scope.editing_test = true;
+    }
 
 
 }])
