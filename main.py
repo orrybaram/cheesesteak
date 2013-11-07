@@ -127,13 +127,22 @@ class DeleteTest(webapp2.RequestHandler):
 class Vote(webapp2.RequestHandler):
     def post(self, test_key):
         data = json.loads(self.request.body)
-        user_key = data.get('user_key')
+        if users.get_current_user():
+            user = UserModel.all().filter('userid =', users.get_current_user().user_id()).get()
         
         vote = VoteModel()
         vote.test = TestModel.get(test_key)
-        
-        if user_key:
-            vote.user = UserModel.get()
+
+        _votes = vote.test.get_votes()
+
+        # for vote in _votes:
+            # if vote.user == user:
+            #     self.response.headers['Content-Type'] = 'application/json'
+            #     self.response.out.write(json.dumps({'error': 'already voted'}))
+            #     return
+
+        if user:
+            vote.user = user
         else:
             vote.user = None
 
