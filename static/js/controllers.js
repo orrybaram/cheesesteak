@@ -13,7 +13,6 @@ controller('MainCtrl', ['$scope', '$http', '$timeout', '$routeParams', function(
     $http.get('/tests/public/').success(function(data){
         $scope.tests = data;
         $scope.test = $scope.tests[$scope.test_index];
-        console.log($scope.tests)
     })
 }]).
 
@@ -25,8 +24,6 @@ controller('TestCtrl', ['$scope', '$http', '$timeout', '$routeParams', function(
 
     window.scope = $scope;
 
-    console.log($routeParams)
-
     $scope.voted_for_a = false;
     $scope.voted_for_b = false;
 
@@ -34,10 +31,7 @@ controller('TestCtrl', ['$scope', '$http', '$timeout', '$routeParams', function(
     // TODO: centralize the getting of tests
     $http.get('/tests/' + $routeParams.testKey).success(function(data){
         $scope.test = data;
-        
-        console.log(data)
-
-
+    
         $scope.test.votes_a = []
         $scope.test.votes_b = []
         
@@ -84,12 +78,12 @@ controller('UserCtrl', ['$scope', '$http', '$routeParams', function($scope, $htt
     window.scope = $scope;
     $scope.post_test_button_text = "Create Test";
     $scope.postData = {};
+    $scope.postData.is_public = true;
     $scope.tests = []
     
     // TODO: centralize the getting of tests
 
     $http.get('/tests/').success(function(data){
-        console.log(data)
         $scope.tests = data;
 
         // Distribute Votes
@@ -149,19 +143,21 @@ controller('UserCtrl', ['$scope', '$http', '$routeParams', function($scope, $htt
     }
 
     $scope.deleteTest = function(test) {
-        console.log(test)
-        $http.post('/tests/' + test.key + '/delete/').
-            success(function(data) {
-                console.log(data)
-            })
-        ;
-        for (var i = 0; i < $scope.tests.length; i++) {
-            var _test = $scope.tests[i];
-            if(_test.key === test.key) {
-                $scope.tests.splice(i,1);
-                break;
-            }
-        };
+        var confirm = window.confirm("Are you sure you wanna delete this?");
+        if (confirm) {
+            $http.post('/tests/' + test.key + '/delete/').
+                success(function(data) {
+                    console.log(data)
+                })
+            ;
+            for (var i = 0; i < $scope.tests.length; i++) {
+                var _test = $scope.tests[i];
+                if(_test.key === test.key) {
+                    $scope.tests.splice(i,1);
+                    break;
+                }
+            };
+        }
     }
 
 }]).
