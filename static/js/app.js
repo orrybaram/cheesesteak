@@ -4,6 +4,7 @@
 // Declare app level module which depends on filters, and services
 angular.module('app', [
   'ngRoute',
+  'ngTouch',
   'app.filters',
   'app.services',
   'app.directives',

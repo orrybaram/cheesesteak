@@ -46,6 +46,22 @@ class MainHandler(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template('index.html')
         self.response.write(template.render(values))
 
+class AdminHandler(webapp2.RequestHandler):
+    def get(self, test_key=None):        
+        if users.get_current_user():
+            user = UserModel.all().filter('userid =', users.get_current_user().user_id()).get()
+
+        tests = []
+        if user.is_admin:    
+            _tests = TestModel.all().order('date_updated').fetch(100)
+        else:
+            return
+        for test in _tests:
+            tests.append(test.serializable())
+            
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(json.dumps(tests))
+
 class Tests(webapp2.RequestHandler):
     def get(self, test_key=None):        
         if users.get_current_user():
@@ -65,22 +81,6 @@ class Tests(webapp2.RequestHandler):
                 
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(json.dumps(values))
-
-class AdminTests(webapp2.RequestHandler):
-    def get(self, test_key=None):        
-        if users.get_current_user():
-            user = UserModel.all().filter('userid =', users.get_current_user().user_id()).get()
-
-        tests = []
-        if user.is_admin:    
-            _tests = TestModel.all().order('date_updated').fetch(100)
-        else:
-            return
-        for test in _tests:
-            tests.append(test.serializable())
-            
-        self.response.headers['Content-Type'] = 'application/json'
-        self.response.out.write(json.dumps(tests))
 
 class PublicTests(webapp2.RequestHandler):
     def get(self):
